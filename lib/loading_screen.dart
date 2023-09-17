@@ -22,20 +22,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   void getData() async {
 
-    var cityName = 'santo domingo';
-
     Location currentPosition = Location();
     await currentPosition.getCurrentPosition();
 
     final url =
         'https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&appid=a410af637674f02a36506bc8aaed14b4&units=metric';
-    final cityUrl = 'https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a410af637674f02a36506bc8aaed14b4&units=metric';
 
     // Instanciamos un objeto de tipo weather
     Weather currentWeather = Weather(url);
-    Weather currentCityWeather = Weather(cityUrl);
     var weatherData = await currentWeather.getWeather();
-    var cityData = await currentCityWeather.getWeather();
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return HomePage(weather: weatherData);

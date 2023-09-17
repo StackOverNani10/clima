@@ -1,28 +1,43 @@
+import 'package:clima/custom_message.dart';
+import 'package:clima/loading_screen.dart';
+import 'package:clima/search_city_page.dart';
 import 'package:flutter/material.dart';
 import 'designs.dart';
-import 'loading_screen.dart';
-import 'search_city_page.dart';
 
 class _HomePageState extends State<HomePage> {
-  String currentTemperature = '';
-  String currentLocationCity = '';
-  String currentIconCity = '';
-  String cityTemperature = '';
+  String temperature = '';
   String locationCity = '';
+  String customIcon = '';
+  String currentWeatherCityIcon = '';
 
   // Descomponemos el Wether
   void Ejemplo() {
-    currentTemperature = widget.weather["main"]["temp"].toString();
-    currentLocationCity = widget.weather["name"];
-    //currentIconCity = widget.weather["weather"]["icon"].toString();
-    //cityTemperature = widget.cityWeather["main"]["temp"].toString();
-    //locationCity = widget.cityWeather["name"];
+    temperature = widget.weather["main"]["temp"].toStringAsFixed(0);
+    locationCity = widget.weather["name"];
+    customIcon = widget.weather["weather"][0]["main"];
+    currentWeatherCityIcon = widget.weather["weather"][0]["icon"];
   }
 
   @override
   void initState() {
     Ejemplo();
     super.initState();
+  }
+
+  String customMessage() {
+    double temp = double.parse(temperature);
+
+    if (temp >= 25) {
+      return kSummerTimeMsg;
+    } else if (temp < 10 && temp >= 0) {
+      return kWinterTimeMsg;
+    } else if (customIcon == 'Rain') {
+      return kRainingTimeMsg;
+    } else if (customIcon == 'Thunderstorm') {
+      return kStormingTimeMsg;
+    } else {
+      return kSummerTimeMsg;
+    }
   }
 
   @override
@@ -45,7 +60,10 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   TextButton(
                     onPressed: () {
-
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return LoadingScreen();
+                      }));
                     },
                     child: Icon(
                       Icons.near_me,
@@ -54,8 +72,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) {
-                        return SearchCityPage();
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return SearchCityPage(
+                          context: context,
+                        );
                       }));
                     },
                     child: Icon(
@@ -66,12 +87,22 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Text(
-              currentTemperature,
-              style: kTempTextStyle,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  '${temperature}°',
+                  style: kTempTextStyle,
+                ),
+                Image.network('https://openweathermap.org/img/wn/${currentWeatherCityIcon}@4x.png'),
+              ],
             ),
-            Text('It\'s time in ${currentLocationCity}!',
-                style: kMessageTextStyle, textAlign: TextAlign.center),
+            Text(
+              '${customMessage()} ${locationCity}!',
+              style: kMessageTextStyle,
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
