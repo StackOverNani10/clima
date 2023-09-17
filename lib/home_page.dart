@@ -1,4 +1,3 @@
-import 'package:clima/custom_message.dart';
 import 'package:clima/loading_screen.dart';
 import 'package:clima/search_city_page.dart';
 import 'package:flutter/material.dart';
@@ -26,17 +25,28 @@ class _HomePageState extends State<HomePage> {
 
   String customMessage() {
     double temp = double.parse(temperature);
+    String kSummerTimeMsg = 'It\'s 🍦 time in ';
+    String kWinterTimeMsg = 'It\'s time to wear 🧥🧤 in ';
+    String kCloudTimeMsg = 'Keep your 🌂 close to you in ';
+    String kDefaultTimeMsg = 'Stay informed of the weather in ';
+    String kStormingTimeMsg = 'Stay safe and be careful with the ⚡️ in ';
+    String kRainingTimeMsg = 'Dont\'t forget to take your 🌂 with you in ';
+    String kColderTimeMsg = 'Only go out in case of emergency, suits on! 🧣🧤🧥🥾 in ';
 
     if (temp >= 25) {
       return kSummerTimeMsg;
     } else if (temp < 10 && temp >= 0) {
       return kWinterTimeMsg;
+    } else if (temp < 0) {
+      return kColderTimeMsg;
     } else if (customIcon == 'Rain') {
       return kRainingTimeMsg;
     } else if (customIcon == 'Thunderstorm') {
       return kStormingTimeMsg;
+    } else if (customIcon == 'Clouds') {
+      return kCloudTimeMsg;
     } else {
-      return kSummerTimeMsg;
+      return kDefaultTimeMsg;
     }
   }
 
