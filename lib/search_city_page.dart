@@ -1,3 +1,4 @@
+import 'package:clima/api_key.dart';
 import 'package:clima/home_page.dart';
 import 'package:clima/location.dart';
 import 'package:clima/weather.dart';
@@ -16,7 +17,7 @@ class SearchCityPage extends StatelessWidget {
     await currentPosition.getCurrentPosition();
 
     final cityUrl =
-        'https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=a410af637674f02a36506bc8aaed14b4&units=metric';
+        'https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric';
 
     // Instanciamos un objeto de tipo weather
     Weather currentCityWeather = Weather(cityUrl);

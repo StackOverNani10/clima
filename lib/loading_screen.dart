@@ -1,3 +1,4 @@
+import 'package:clima/api_key.dart';
 import 'package:clima/home_page.dart';
 import 'package:clima/location.dart';
 import 'package:clima/weather.dart';
@@ -14,7 +15,6 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
-    // TODO: implement initState
     getData();
 
     super.initState();
@@ -26,7 +26,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await currentPosition.getCurrentPosition();
 
     final url =
-        'https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&appid=a410af637674f02a36506bc8aaed14b4&units=metric';
+        'https://api.openweathermap.org/data/2.5/weather?lat=${currentPosition.latitude}&lon=${currentPosition.longitude}&appid=${apiKey}&units=metric';
 
     // Instanciamos un objeto de tipo weather
     Weather currentWeather = Weather(url);
